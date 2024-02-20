@@ -1,0 +1,81 @@
+.btn {
+    display: inline-block;
+    cursor: pointer;
+    margin-bottom: 5px;
+    border-radius: 0;
+    text-align: center;
+    user-select: none;
+    height: 35px;
+    outline: none;
+    line-height: 35px;
+    border: solid 1px #ccc;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    font-family: "Poppins", sans-serif;
+    padding: 0 15px;
+
+    &.btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    &.no-padding {
+        padding: 0 !important;
+    }
+
+    &.btn-small {
+        font-size: 0.8203125rem;
+        height: 28px;
+    }
+
+    &.btn-danger {
+        color: #fff;
+        background-color: #ca3120;
+        border-color: #ca3120;
+    }
+    &.btn-light {
+        color: #212529;
+        background-color: #f8f9fa;
+        border: solid 1px #dedede;
+    }
+    &.btn-light:hover {
+        color: #212529;
+        background-color: #e2e6ea;
+        border-color: #dae0e5;
+    }
+    &.btn-success {
+        color: #fff;
+        background-color: #357a32;
+        border-color: #357a32;
+    }
+    &.btn-primary {
+        color: #fff;
+        background-color: #0f6fc5;
+        border-color: #0f6fc5;
+    }
+    &.btn-primary:hover {
+        color: #fff;
+        background-color: #0c5ba1;
+        border-color: #0b5496;
+    }
+    &.btn-info {
+        color: #fff;
+        background-color: #008196;
+        border-color: #008196;
+    }
+    &.btn-info:hover {
+        color: #fff;
+        background-color: #006070;
+        border-color: #005563;
+    }
+    &.btn-success:hover {
+        color: #fff;
+        background-color: #295f27;
+        border-color: #255623;
+    }
+    &.btn-danger:hover {
+        color: #fff;
+        background-color: #a9291b;
+        border-color: #9e2619;
+    }
+}

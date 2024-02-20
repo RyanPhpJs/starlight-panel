@@ -1,0 +1,46 @@
+:root {
+    --st-blue: #0d6efd;
+    --st-indigo: #6610f2;
+    --st-purple: #6f42c1;
+    --st-pink: #d63384;
+    --st-red: #dc3545;
+    --st-orange: #fd7e14;
+    --st-yellow: #ffc107;
+    --st-green: #198754;
+    --st-teal: #20c997;
+    --st-cyan: #0dcaf0;
+    --st-black: #000015;
+    --st-white: #fff;
+    --st-gray: #8a93a2;
+    --st-gray-dark: #636f83;
+    --st-gray-100: #ebedef;
+    --st-gray-200: #d8dbe0;
+    --st-gray-300: #c4c9d0;
+    --st-gray-400: #b1b7c1;
+    --st-gray-500: #9da5b1;
+    --st-gray-600: #8a93a2;
+    --st-gray-700: #768192;
+    --st-gray-800: #636f83;
+    --st-gray-900: #4f5d73;
+    --st-primary: #321fdb;
+    --st-secondary: #9da5b1;
+    --st-success: #2eb85c;
+    --st-info: #39f;
+    --st-warning: #f9b115;
+    --st-danger: #e55353;
+    --st-light: #ebedef;
+    --st-dark: #4f5d73;
+
+    // distro colors
+    --st-debian: #d70a53;
+    --st-ubuntu: #dd4814;
+    --st-windows: #00adef;
+    --st-linux: #ffcc33;
+    --st-docker: #0db7ed;
+    --st-nodejs: #44883e;
+    --st-python: #4584b6;
+    --st-php: #4f5b93;
+    --st-ruby: #cc342d;
+    --st-rust: #b7410e;
+    --st-golang: #29beb0;
+}

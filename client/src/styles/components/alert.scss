@@ -1,0 +1,19 @@
+.alert {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    height: 55px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 5px 10px;
+    border: solid 1px #ccc;
+
+    &.danger-alert,
+    &.error-alert {
+        border-left: solid 5px --st-danger;
+    }
+
+    &.warning-alert {
+        border-left: solid 5px --st-warning;
+    }
+}

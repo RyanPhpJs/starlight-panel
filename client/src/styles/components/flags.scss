@@ -1,0 +1,22 @@
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    font-size: 10.8px;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.87);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem;
+}
+
+.badge-sm {
+    padding: 4px 7px;
+    font-size: 9px;
+}
+
+.ms-auto {
+    margin-left: auto !important;
+    margin-right: 20px;
+}

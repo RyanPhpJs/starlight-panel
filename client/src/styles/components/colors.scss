@@ -1,0 +1,12 @@
+$colors: danger, success, info, warning, primary, windows, debian, ubuntu, linux,
+    php, nodejs, golang, rust, python, docker;
+
+@each $color in $colors {
+    .bg-#{$color} {
+        background-color: var(--st-#{$color});
+    }
+
+    .text-#{$color} {
+        color: var(--st-#{$color});
+    }
+}

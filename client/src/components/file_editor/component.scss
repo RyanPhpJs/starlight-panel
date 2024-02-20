@@ -1,0 +1,72 @@
+$color_1: #333;
+$color_2: #fff;
+
+.file-editor {
+    padding: 20px;
+    .file_breadcrumbs {
+        border: 1px solid #cbd2d9;
+        border-radius: 0.3rem;
+        display: inline-flex;
+        overflow: hidden;
+        .file_breadcrumbs_item {
+            background: #fff;
+            color: $color_1;
+            outline: none;
+            padding: 0.75em 0.75em 0.75em 1.25em;
+            position: relative;
+            text-decoration: none;
+            transition: background 0.2s linear;
+            cursor: pointer;
+            &:hover {
+                &:after {
+                    background: #edf1f5;
+                }
+                background: #edf1f5;
+            }
+            &:focus {
+                &:after {
+                    background: #323f4a;
+                    color: $color_2;
+                }
+                background: #323f4a;
+                color: $color_2;
+            }
+            &:after {
+                background: white;
+                bottom: 0;
+                clip-path: polygon(50% 50%, -50% -50%, 0 100%);
+                content: "";
+                left: 100%;
+                position: absolute;
+                top: 0;
+                transition: background 0.2s linear;
+                width: 1em;
+                z-index: 1;
+            }
+            &:before {
+                background: white;
+                bottom: 0;
+                clip-path: polygon(50% 50%, -50% -50%, 0 100%);
+                content: "";
+                left: 100%;
+                position: absolute;
+                top: 0;
+                transition: background 0.2s linear;
+                width: 1em;
+                z-index: 1;
+                background: #cbd2d9;
+                margin-left: 1px;
+            }
+            &:last-child {
+                border-right: none;
+            }
+            &.is-active {
+                &:focus {
+                    background: #323f4a;
+                    color: $color_2;
+                }
+                background: #edf1f5;
+            }
+        }
+    }
+}
