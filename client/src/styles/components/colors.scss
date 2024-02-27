@@ -9,4 +9,24 @@ $colors: danger, success, info, warning, primary, windows, debian, ubuntu, linux
     .text-#{$color} {
         color: var(--st-#{$color});
     }
+
+    .border-#{$color} {
+        border-color: var(--st-#{$color});
+    }
+
+    .border-left-#{$color} {
+        border-left-color: var(--st-#{$color});
+    }
+
+    .border-top-#{$color} {
+        border-top-color: var(--st-#{$color});
+    }
+
+    .border-right-#{$color} {
+        border-right-color: var(--st-#{$color});
+    }
+
+    .border-bottom-#{$color} {
+        border-bottom-color: var(--st-#{$color});
+    }
 }

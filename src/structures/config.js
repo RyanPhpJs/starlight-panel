@@ -14,7 +14,7 @@ module.exports.Config = class Config {
 
     read() {
         this._cache = dotenv.parse(
-            readFileSync("/panel/conf/user_details.conf")
+            readFileSync("/server/conf/user_details.conf")
         );
         this._readed = true;
         return this._cache;

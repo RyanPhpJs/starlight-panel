@@ -118,7 +118,10 @@ function ContentLayout({ children, setOpen, isOpen }) {
 }
 
 export function InternLayout({ children }) {
-    const [isOpen, setOpen] = useState();
+    const [isOpen, setOpen] = useState(
+        localStorage.getItem("st_sidebar_open") === "open"
+    );
+    localStorage.setItem("st_sidebar_open", isOpen ? "open" : "closed");
     return (
         <>
             <SideBarContainer
@@ -128,73 +131,73 @@ export function InternLayout({ children }) {
                         {
                             icon: "speedometer",
                             target: "/",
-                            name: "Dashboard"
-                        }
+                            name: "Dashboard",
+                        },
                     ],
                     Monitoramento: [
                         {
                             icon: "memory",
                             target: "/monitor/resources",
-                            name: "Recursos"
+                            name: "Recursos",
                         },
                         {
                             icon: "cloud",
                             target: "/monitor/traffik",
-                            name: "Trafégo"
-                        }
+                            name: "Trafégo",
+                        },
                     ],
                     VPS: [
                         {
                             icon: "folder",
                             target: "/files",
                             name: "Editor de Arquivos",
-                            flag: "BETA"
+                            flag: "BETA",
                         },
                         {
                             icon: "terminal",
                             target: "/terminal",
-                            name: "Terminal"
+                            name: "Terminal",
                         },
                         {
                             icon: "shield-alt",
                             target: "/firewall",
-                            name: "Firewall"
+                            name: "Firewall",
                         },
                         {
                             icon: "cloud-download",
                             target: "/packages",
-                            name: "APT"
-                        }
+                            name: "APT",
+                        },
                     ],
                     Workspaces: [
                         {
                             icon: "spreadsheet",
                             target: "/workspace",
-                            name: "Workspaces"
+                            name: "Workspaces",
                         },
                         {
                             icon: "plus",
                             target: "/workspace/create",
-                            name: "Criar Workspace"
-                        }
+                            name: "Criar Workspace",
+                        },
                     ],
                     Configurações: [
                         {
                             icon: "cog",
                             target: "/settings",
-                            name: "Configurações"
+                            name: "Configurações",
                         },
                         {
                             icon: "https",
                             target: "/settings/https",
-                            name: "Certificado SSL"
+                            name: "Certificado SSL",
                         },
                         {
                             icon: "beaker",
                             target: "/api_keys",
-                            name: "API"
-                        }
-                    ]
+                            name: "API",
+                        },
+                    ],
                 }}
             />
             <ContentLayout setOpen={setOpen} isOpen={isOpen}>

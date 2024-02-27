@@ -1,12 +1,12 @@
 const { Controller } = require("../../../structures/Controller");
 
-module.exports = class User extends Controller {
+module.exports = class Apt extends Controller {
     /**
      * Fornece informações se o servidor está ligado
      */
-    identify = this.request(
+    list = this.request(
         {
-            url: "/api/user",
+            url: "/api/apt/list",
             method: "GET",
             auth: true,
         },

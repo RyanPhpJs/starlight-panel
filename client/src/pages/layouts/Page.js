@@ -9,9 +9,16 @@ export class Page extends Component {
     async loader() {
         return {};
     }
+    get ContentElement() {
+        return this.content;
+    }
     render(args = {}) {
         return (
-            <Async promiseFn={this.loader.bind(this)} {...args}>
+            <Async
+                promiseFn={this.loader.bind(this)}
+                onReject={(err) => console.error(err)}
+                {...args}
+            >
                 {({ isPending, error, data }) => {
                     if (isPending) {
                         const LoadingElement = this.loading;
@@ -20,7 +27,8 @@ export class Page extends Component {
                     if (error) {
                         return <div>Error</div>;
                     }
-                    return this.content({ ...args, data: data });
+                    const C = this.content;
+                    return <this.ContentElement data={data} {...args} />;
                 }}
             </Async>
         );

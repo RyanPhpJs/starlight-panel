@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model WebTokens {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  expiration DateTime
+}
+
+model ApiToken {
+  id          String    @id @default(uuid())
+  expiration  DateTime?
+  allowed_ips String[]  @default([])
+  token       String
+}
+
+model Workspace {
+  id   String @id @default(uuid())
+  name String
+
+  bots      Bot[]
+  databases Database[]
+}
+
+model Database {
+  id           String       @id @default(uuid())
+  name         String // a-z0-9_
+  workspace_id String
+  type         DatabaseType
+  username     String
+  password     String // hashed
+
+  workspace Workspace @relation(fields: [workspace_id], references: [id])
+}
+
+enum DatabaseType {
+  POSTGRESQL
+  MYSQL
+  MARIADB
+  MONGODB
+  REDIS
+}
+
+model Bot {
+  // container_name = `${w.id}_bot_${id}`
+  // container_name_alis = `${w.name}_bot_${id}`
+  id            String   @id @default(uuid())
+  user_id       String
+  image         BotImage
+  token         String // ENCRYPTED
+  env           Json
+  git_repo      String
+  webhook_token String   @unique @default(uuid())
+  command       String
+
+  workspace Workspace @relation(fields: [user_id], references: [id])
+
+  websites Json[] @default([])
+
+  cron_jobs CronJob[]
+}
+
+// type Website {
+//   id            String   @id @default(uuid())
+//   domain        String
+//   port       Int
+//   protocol   Protocol @default(HTTP)
+//   path          String   @default("/")
+//   rewrite_rules Json     @default("{}")
+
+//   bot Bot @relation(fields: [bot_id], references: [id])
+// }
+
+model CronJob {
+  id        String @id @default(uuid())
+  bot_id    String
+  cron_time String
+  cron_data Json   @default("{}")
+
+  bot Bot @relation(fields: [bot_id], references: [id])
+}
+
+enum Protocol {
+  HTTP
+  HTTPS
+}
+
+enum BotImage {
+  NODE_20
+  NODE_18
+  PHP_APACHE_82
+  PHP_APACHE_81
+  PHP_CLI_82
+  PHP_CLI_81
+  JAVA_21
+  JAVA_17
+  JAVA_11
+  RUBY_33
+  RUBY_32
+  RUBY_31
+  RUBY_30
+  GOLANG_1_22
+  GOLANG_1_21
+}

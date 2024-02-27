@@ -1,3 +1,34 @@
+.card {
+    width: 100%;
+    background: #fff;
+    margin-bottom: 10px;
+
+    .card-header {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 10px;
+        border-bottom: solid 1px var(--st-gray-500);
+
+        .button-action {
+            cursor: pointer;
+            height: 40px;
+            width: 40px;
+            background: var(--st-gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .card-body {
+        display: none;
+        &.maximized {
+            display: block;
+        }
+    }
+}
 .widget {
     width: 100%;
     height: 70px;

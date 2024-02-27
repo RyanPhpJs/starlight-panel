@@ -11,11 +11,24 @@ module.exports = class Stats extends Controller {
         {
             url: "/api/info",
             method: "GET",
-            auth: false
+            auth: true,
         },
         async (req, res) => {
             const monitor = await createMonitor();
             res.send(monitor);
+        }
+    );
+
+    ramStream = this.request(
+        {
+            url: "/api/info/memory/stream",
+            method: "GET",
+            auth: false,
+        },
+        (req, res, next) => {
+            this.server.proxy.web(req, res, {
+                target: "http://localhost:9090/api/monitor/memory/stream",
+            });
         }
     );
 };

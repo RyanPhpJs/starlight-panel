@@ -6,21 +6,26 @@ const {
     existsSync,
     readFileSync,
     readdirSync,
-    mkdirSync
+    mkdirSync,
 } = require("fs");
 const { createServer } = require("https");
 const { join } = require("path");
-const database = require("../lib/database");
+const { PrismaClient } = require("@prisma/client");
 const { Config } = require("./config");
 const SSE = require("./SSE");
 const { isMiddleware } = require("./createMiddleware");
+const { createProxyServer } = require("http-proxy");
 
 module.exports = class Server {
     constructor() {
         this.application = express();
 
+        this.proxy = createProxyServer({
+            ws: false,
+            ignorePath: true,
+        });
         this.server = createServer(this.getCertificate(), this.application);
-        this.db = database("db/tokens.sdb");
+        this.db = new PrismaClient();
     }
 
     getCertificate() {
@@ -32,7 +37,7 @@ module.exports = class Server {
         }
         return {
             key: readFileSync("ssl/private.key", "utf-8"),
-            cert: readFileSync("ssl/certificate.crt", "utf-8")
+            cert: readFileSync("ssl/certificate.crt", "utf-8"),
         };
     }
 
@@ -44,8 +49,8 @@ module.exports = class Server {
             [
                 {
                     name: "commonName",
-                    value: "localhost"
-                }
+                    value: "localhost",
+                },
             ],
             { days: 365 * 10 - 1 }
         );
@@ -70,7 +75,7 @@ module.exports = class Server {
                         if (p[0] === "application/json") return true;
                     }
                     return false;
-                }
+                },
             }),
             express.urlencoded({
                 limit: "5mb",
@@ -82,7 +87,7 @@ module.exports = class Server {
                             return true;
                     }
                     return false;
-                }
+                },
             })
         );
 
@@ -99,7 +104,7 @@ module.exports = class Server {
                 },
                 error(status, message) {
                     res.status(status).send({ message: message });
-                }
+                },
             };
             res.sse = new SSE(res);
             next();
@@ -108,7 +113,7 @@ module.exports = class Server {
 
     middlewares(path = "") {
         for (const controller of readdirSync(join("src/middlewares", path), {
-            withFileTypes: true
+            withFileTypes: true,
         })) {
             if (controller.isFile()) {
                 const c = require("../middlewares/" +
@@ -131,7 +136,7 @@ module.exports = class Server {
 
     routes(path = "") {
         for (const controller of readdirSync(join("src/controllers", path), {
-            withFileTypes: true
+            withFileTypes: true,
         })) {
             if (controller.isFile()) {
                 const c = require("../controllers/" +
@@ -152,9 +157,12 @@ module.exports = class Server {
 
     async createToken(expiration = 60 * 60) {
         const token = nanoid.nanoid(32);
-        const d = Date.now() + expiration * 1000;
-        await this.db.set(token, {
-            ex: d
+        const d = new Date(Date.now() + expiration * 1000);
+        await this.db.webTokens.create({
+            data: {
+                expiration: d,
+                token: token,
+            },
         });
         return token;
     }
@@ -162,7 +170,7 @@ module.exports = class Server {
     /**
      * @type {import("express").RequestHandler}
      */
-    auth(req, res, next) {
+    async auth(req, res, next) {
         const authotization = req.headers.authorization;
         if (!authotization) {
             return res
@@ -173,25 +181,30 @@ module.exports = class Server {
         if (typeToken !== "Bearer") {
             return res.status(401).send({
                 message:
-                    'Não Autorizado (Tipo de token invalído, é aceitado apenas "Bearer")'
+                    'Não Autorizado (Tipo de token invalído, é aceitado apenas "Bearer")',
             });
         }
         if (token.length !== 1) {
             return res.status(401).send({
-                message: "Não Autorizado (Tamanho do token invalído)"
+                message: "Não Autorizado (Tamanho do token invalído)",
             });
         }
         if (token[0].length !== 32)
             return res.status(401).send({
-                message: "Não Autorizado (Tamanho do token invalído)"
+                message: "Não Autorizado (Tamanho do token invalído)",
             });
-        const result = this.db.get(token[0]);
+        const result = await this.db.webTokens.findFirst({
+            where: {
+                token: token[0],
+            },
+        });
         if (!result) {
             return res
                 .status(401)
                 .send({ message: "Não Autorizado (Token desconhecido)" });
         }
-        if (result.ex < Date.now()) {
+        if (result.expiration < new Date()) {
+            await this.db.webTokens.delete({ where: { id: result.id } });
             return res
                 .status(401)
                 .send({ message: "Não Autorizado (Token expirado)" });
@@ -208,7 +221,7 @@ module.exports = class Server {
         });
         this.application.use((req, res, next) => {
             res.sendFile("index.html", {
-                root: join(__dirname, "../../build")
+                root: join(__dirname, "../../build"),
             });
         });
         return new Promise((resolve) => {
